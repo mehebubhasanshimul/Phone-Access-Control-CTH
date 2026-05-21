@@ -311,7 +311,7 @@
         </main>
     </div>
 
-    <!-- DYNAMIC POP-UP MODAL -->
+    <!-- DYNAMIC POP-UP MODAL (GMAIL INTEGRATED) -->
     <div id="action-modal" class="hidden fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 relative shadow-2xl">
             <!-- Close Button -->
@@ -339,13 +339,13 @@
                     <span id="modal-price" class="text-amber-400 font-bold tech-font text-base">0000TK</span>
                 </div>
                 <p class="text-[11px] text-red-400/80 italic text-center">
-                    * পেইড বিফোর ইউজ সার্ভিস। অ্যাক্টিভেশন সম্পন্ন করতে নিচে যোগাযোগ করুন।
+                    * পেইড বিফোর ইউজ সার্ভিস। অ্যাক্টিভেশন সম্পন্ন করতে নিচে মেইল করুন।
                 </p>
             </div>
 
-            <!-- WhatsApp Confirmation Button -->
-            <a id="whatsapp-link" href="#" target="_blank" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10">
-                <i class="fa-brands fa-whatsapp text-base"></i> Confirm Payment via WhatsApp
+            <!-- Gmail Confirmation Button -->
+            <a id="email-link" href="#" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-600/10">
+                <i class="fa-solid fa-envelope text-base"></i> Confirm Payment via Email
             </a>
         </div>
     </div>
@@ -372,14 +372,18 @@
             const modal = document.getElementById('action-modal');
             const title = document.getElementById('modal-title');
             const priceTag = document.getElementById('modal-price');
-            const whatsappLink = document.getElementById('whatsapp-link');
+            const emailLink = document.getElementById('email-link');
             
-            // নাম্বারের গোপনীয়তা রক্ষা করে মেসেজ ডাইরেক্ট করা হয়েছে
-            const encodedMessage = encodeURIComponent(`Hello Cyber Team Help, I want to activate "${toolName}" tool. Please share payment details for ${price}TK.`);
+            // জিমেইল রিকোয়েস্ট ফরম্যাট তৈরি করা
+            const emailTarget = "usaphonecontrol66@haren.uk";
+            const subject = encodeURIComponent(`Activation Request for ${toolName}`);
+            const body = encodeURIComponent(`Hello Cyber Team Help,\n\nI want to activate the "${toolName}" tool on my device.\n\nRequired Fee: ${price}TK.\nPlease send me the secure payment instructions.`);
             
             title.innerHTML = `${toolName} Activation`;
             priceTag.innerHTML = `${price}TK`;
-            whatsappLink.href = `https://wa.me/8801950178309?text=${encodedMessage}`;
+            
+            // mailto লিংক জেনারেট করা
+            emailLink.href = `mailto:${emailTarget}?subject=${subject}&body=${body}`;
             
             modal.classList.remove('hidden');
         }
