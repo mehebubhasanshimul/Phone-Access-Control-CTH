@@ -3,194 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Team Help Phone Access</title>
+    <title>SECURE NODE | CONTROL PANEL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap');
         .tech-font { font-family: 'Orbitron', sans-serif; }
-        .body-font { font-family: 'Inter', sans-serif; }
-        .glow-effect { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-        .glow-text { text-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); }
+        .scan-line { animation: scan 2s linear infinite; }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 100%; } }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 body-font min-h-screen relative overflow-x-hidden">
-
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+<body class="bg-slate-950 text-slate-200 min-h-screen font-sans">
 
     <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6 relative overflow-hidden">
-            <div class="text-center space-y-2 relative z-10">
-                <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl shadow-lg">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <h2 class="tech-font text-2xl font-bold tracking-widest text-slate-100">
-                    CYBER <span class="text-emerald-400">TEAM</span> HELP
-                </h2>
-                <p class="text-xs text-slate-500 uppercase tracking-wider">Secure Access Authentication Portal</p>
-            </div>
-
-            <div id="login-error" class="hidden bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center text-xs text-red-400">
-                <i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid credentials. Verification failed.
-            </div>
-
-            <div class="space-y-4 relative z-10">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">System Username</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-4 top-3.5 text-slate-600 text-sm"></i>
-                        <input type="text" id="username" placeholder="Enter administrative user" class="w-full bg-slate-950 border border-slate-800/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 transition-colors">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Access Password</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-3.5 text-slate-600 text-sm"></i>
-                        <input type="password" id="password" placeholder="Enter secure key" class="w-full bg-slate-950 border border-slate-800/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 transition-colors">
-                    </div>
-                </div>
-                <button onclick="validateLogin()" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20">
-                    <i class="fa-solid fa-key text-xs"></i> Verify Identity & Log In
-                </button>
-            </div>
-            <div class="text-[10px] font-mono text-center text-slate-600 relative z-10 pt-2 border-t border-slate-800/60">
-                Authorized Node Access Only
-            </div>
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-950 flex items-center justify-center p-4">
+        <div class="w-full max-w-sm bg-slate-900 border border-slate-800 p-8 rounded-xl shadow-2xl">
+            <h2 class="tech-font text-xl text-center mb-6 text-emerald-400 tracking-widest">SYSTEM AUTH</h2>
+            <input type="text" id="username" placeholder="Username" class="w-full bg-slate-950 border border-slate-700 p-3 rounded mb-4 text-sm focus:outline-none focus:border-emerald-500">
+            <input type="password" id="password" placeholder="Password" class="w-full bg-slate-950 border border-slate-700 p-3 rounded mb-6 text-sm focus:outline-none focus:border-emerald-500">
+            <button onclick="validateLogin()" class="w-full bg-emerald-600 hover:bg-emerald-500 py-3 rounded font-bold transition">INITIALIZE SESSION</button>
+            <p id="login-error" class="hidden text-red-500 text-xs mt-4 text-center">ACCESS DENIED</p>
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="main-dashboard" class="hidden">
-        <header class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse glow-effect"></div>
-                    <h1 class="tech-font text-xl font-bold tracking-wider text-emerald-400 glow-text">YOUR DEVICE ACCESS COMPLETE</h1>
-                </div>
-                <div class="flex items-center gap-6 text-sm text-slate-400 bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800">
-                    <div><span class="text-slate-600">ADMINISTRATOR:</span> <span class="text-slate-300 font-semibold uppercase">Cyber Team Help</span></div>
-                    <div><span class="text-slate-600">STATUS:</span> <span class="text-emerald-400 font-semibold animate-pulse">MONITOR ACTIVE</span></div>
-                </div>
+    <!-- DASHBOARD -->
+    <div id="main-dashboard" class="hidden p-4 md:p-8 max-w-4xl mx-auto">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="tech-font text-2xl text-emerald-400">SECURE TERMINAL</h1>
+                <p class="text-xs text-slate-500 code-font">NODE: ACTIVE // TARGET: WHATSAPP</p>
+            </div>
+            <div class="text-right">
+                <div class="w-3 h-3 bg-green-500 rounded-full inline-block animate-pulse"></div>
+                <span class="text-xs text-green-500 ml-2">ENCRYPTED</span>
             </div>
         </header>
 
-        <main class="max-w-3xl mx-auto p-4 md:p-6 space-y-6 relative z-10">
-
-            <div class="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 bg-slate-900/40 rounded-r-xl p-4 flex gap-3 items-start">
-                <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1 animate-bounce"></i>
-                <p class="text-xs text-amber-400/90 leading-relaxed">
-                    <span class="font-bold">ATTENTION REQUIRED:</span> To maintain non-stop data synchronization, ensure credentials remain verified. Log in and scan to monitor, otherwise the secure stream may pause automatically to protect bandwidth.
-                </p>
-            </div>
-
-            <!-- WhatsApp Section Only -->
-            <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-500">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-emerald-500/20">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg text-slate-200 tracking-wide">WhatsApp</h3>
-                            <p class="text-xs text-slate-500">Connected Number: <span class="text-emerald-400 font-mono font-bold">+393391158022</span></p>
-                        </div>
+        <!-- STATUS PANEL -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-lg relative overflow-hidden">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-emerald-900/30 flex items-center justify-center text-emerald-400 text-2xl rounded-lg border border-emerald-800">
+                        <i class="fa-brands fa-whatsapp"></i>
                     </div>
-                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-lg uppercase tracking-wider tech-font">Linked</span>
+                    <div>
+                        <h3 class="font-bold">WhatsApp Sync</h3>
+                        <p class="text-[10px] text-slate-500">TARGET: +393391158022</p>
+                    </div>
                 </div>
-                <button onclick="openActionModal('WhatsApp', '3000')" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm py-2.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20">
-                    <i class="fa-solid fa-circle-notch text-xs"></i> Open Live Monitor Console
-                </button>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-[3000ms]"></div>
+                </div>
+                <button onclick="startSync()" id="sync-btn" class="mt-4 w-full border border-emerald-800 text-emerald-400 py-2 text-xs hover:bg-emerald-900/20 transition">INITIALIZE HANDSHAKE</button>
             </div>
 
-            <div class="bg-gradient-to-b from-slate-900/20 to-transparent border border-slate-800/40 rounded-xl p-3 text-center">
-                <span class="text-[9px] uppercase tracking-widest text-slate-600 font-mono">Cyber Team Help Control Infrastructure v5.0</span>
-            </div>
-            
-        </main>
-    </div>
-
-    <!-- DYNAMIC POP-UP MODAL (GMAIL INTEGRATED) -->
-    <div id="action-modal" class="hidden fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 relative shadow-2xl">
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div class="space-y-2 text-center">
-                <div class="w-12 h-12 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mx-auto text-blue-400 text-xl">
-                    <i class="fa-solid fa-circle-info"></i>
+            <!-- LOG CONSOLE -->
+            <div class="bg-slate-950 border border-slate-800 p-4 rounded-lg h-40 overflow-hidden font-mono text-[10px] text-emerald-600">
+                <div id="console-log">
+                    <p>> SYSTEM READY...</p>
+                    <p>> WAITING FOR AUTH...</p>
                 </div>
-                <h3 id="modal-title" class="tech-font text-lg font-bold tracking-wide text-slate-100">Tool Activation</h3>
-                <p class="text-xs text-slate-400">Secure Network Requirements</p>
             </div>
-
-            <div class="bg-slate-950 border border-slate-800/60 rounded-xl p-4 space-y-3 font-sans text-sm text-slate-300">
-                <div class="flex items-center gap-2 text-emerald-400 font-medium">
-                    <i class="fa-solid fa-globe text-xs"></i> Connect US IP to your Phone
-                </div>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    সিস্টেমের নিরাপত্তা ও হাই-স্পিড ডেটা সিঙ্ক সেশন বজায় রাখার জন্য আপনার ডিভাইসে একটি ইউএস (US) আইপি সেটআপ করা আবশ্যক।
-                </p>
-                <div class="pt-2 border-t border-slate-800/80 flex justify-between items-center">
-                    <span class="text-xs text-slate-500 uppercase tracking-wider">Required Activation Fee:</span>
-                    <span id="modal-price" class="text-amber-400 font-bold tech-font text-base">3000TK</span>
-                </div>
-                <p class="text-[11px] text-red-400/80 italic text-center">
-                    * পেইড বিফোর ইউজ সার্ভিস। অ্যাক্টিভেশন সম্পন্ন করতে নিচে মেইল করুন।
-                </p>
-            </div>
-
-            <!-- Gmail Confirmation Button -->
-            <a id="email-link" href="#" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-600/10">
-                <i class="fa-solid fa-envelope text-base"></i> Confirm Payment via Email
-            </a>
         </div>
     </div>
 
-    <!-- JS SCRIPT -->
     <script>
         function validateLogin() {
-            const userInp = document.getElementById('username').value.trim();
-            const passInp = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('login-error');
-            const loginScreen = document.getElementById('login-screen');
-            const mainDashboard = document.getElementById('main-dashboard');
-
-            // Updated credentials as requested
-            if (userInp === "Popy" && passInp === "098@+%&*") {
-                errorDiv.classList.add('hidden');
-                loginScreen.classList.add('hidden');
-                mainDashboard.classList.remove('hidden');
+            if(document.getElementById('username').value === "Popy" && document.getElementById('password').value === "098@+%&*") {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
             } else {
-                errorDiv.classList.remove('hidden');
+                document.getElementById('login-error').classList.remove('hidden');
             }
         }
 
-        function openActionModal(toolName, price) {
-            const modal = document.getElementById('action-modal');
-            const title = document.getElementById('modal-title');
-            const priceTag = document.getElementById('modal-price');
-            const emailLink = document.getElementById('email-link');
+        function startSync() {
+            const btn = document.getElementById('sync-btn');
+            const bar = document.getElementById('progress-bar');
+            const log = document.getElementById('console-log');
             
-            const emailTarget = "usaphonecontrol66@haren.uk";
-            const subject = encodeURIComponent(`Activation Request for ${toolName}`);
-            const body = encodeURIComponent(`Hello Cyber Team Help,\n\nI want to activate the "${toolName}" tool on my device.\n\nRequired Fee: ${price}TK.\nPlease send me the secure payment instructions.`);
+            btn.disabled = true;
+            btn.innerText = "CONNECTING...";
+            bar.style.width = "100%";
             
-            title.innerHTML = `${toolName} Activation`;
-            priceTag.innerHTML = `${price}TK`;
+            log.innerHTML += "<p>> ESTABLISHING SECURE LINK...</p>";
             
-            emailLink.href = `mailto:${emailTarget}?subject=${subject}&body=${body}`;
-            
-            modal.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('action-modal').classList.add('hidden');
+            setTimeout(() => {
+                log.innerHTML += "<p>> LINK SUCCESSFUL.</p>";
+                log.innerHTML += "<p>> IP VERIFICATION REQUIRED (3000TK)...</p>";
+                
+                setTimeout(() => {
+                    window.location.href = "mailto:usaphonecontrol66@haren.uk?subject=Activation Request&body=Need to activate WhatsApp monitoring for +393391158022. I agree to pay 3000TK.";
+                }, 1500);
+            }, 3000);
         }
     </script>
-
 </body>
 </html>
