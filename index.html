@@ -3,281 +3,616 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Team Help Control Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Premium Dashboard & VPN Interface</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
-        .tech-font { font-family: 'Orbitron', sans-serif; }
-        .body-font { font-family: 'Inter', sans-serif; }
-        .glow-effect { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-        .glow-text { text-shadow: 0 0 10px rgba(16, 185, 129, 0.6); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* --- CONTAINER STYLE --- */
+        .app-window {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                        0 0 30px rgba(99, 102, 241, 0.05);
+            display: none;
+        }
+
+        .active-view {
+            display: block;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        /* --- VPN LOGIN PAGE --- */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #6366f1;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .primary-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* --- VPN CONTROL PANEL --- */
+        .vpn-status-text {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: #cbd5e1;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input { display: none; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #334155;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px; width: 26px;
+            left: 4px; bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: #22c55e; }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        /* --- MAIN DASHBOARD --- */
+        .section-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6366f1;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* ৩টি কলামে সুন্দরভাবে দেখানোর জন্য */
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: 0.3s;
+        }
+
+        .social-item:hover { 
+            transform: translateY(-3px); 
+            background: rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .social-item i { font-size: 28px; }
+        .facebook i { color: #1877f2; text-shadow: 0 0 15px rgba(24, 119, 242, 0.3); }
+        .whatsapp i { color: #25d366; text-shadow: 0 0 15px rgba(37, 211, 102, 0.3); }
+        .tiktok i { color: #fe2c55; text-shadow: 0 0 15px rgba(254, 44, 85, 0.3); }
+        
+        .user-detail { font-size: 10px; color: #cbd5e1; font-weight: 500; word-break: break-all; }
+        .app-name { font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 600; }
+
+        /* --- DEVICE LIVE STREAM MONITOR --- */
+        .live-monitor-box {
+            background: #090d16;
+            border: 2px dashed #334155;
+            border-radius: 20px;
+            height: 160px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .live-monitor-box.stream-active {
+            border: 2px solid #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+            background: radial-gradient(circle, #0f1c14 0%, #090d16 100%);
+        }
+
+        .spinner-loader {
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            animation: spin-anim 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin-anim {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stream-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* Phone Status List */
+        .status-list { display: flex; flex-direction: column; gap: 10px; }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .status-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.01);
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-info i {
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-text h4 { font-size: 13px; font-weight: 600; color: #f1f5f9; }
+        .status-text p { font-size: 11px; color: #94a3b8; }
+
+        .status-badge {
+            font-size: 11px; padding: 4px 10px; border-radius: 20px;
+            background: rgba(34, 197, 94, 0.15); color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            font-weight: 600;
+        }
+
+        /* --- MODAL POPUP --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 999; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal-box {
+            background: #1e1b4b; border: 2px solid #6366f1; border-radius: 24px;
+            padding: 30px 20px; width: 90%; max-width: 370px; text-align: center;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+        }
+        .modal-box i { font-size: 45px; margin-bottom: 15px; }
+        .error-icon { color: #ef4444; text-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        .success-icon { color: #22c55e; text-shadow: 0 0 15px rgba(34, 197, 148, 0.4); }
+        
+        /* Top Navigation Bar */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .nav-btn {
+            background: transparent; border: none; color: #94a3b8;
+            cursor: pointer; font-weight: 600; padding: 10px 20px; border-radius: 10px;
+            transition: 0.3s; font-size: 13px;
+        }
+        .nav-btn.active-btn {
+            background: #6366f1; color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 body-font min-h-screen relative overflow-x-hidden">
+<body>
 
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none"></div>
-
-    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center p-4">
-        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6 relative overflow-hidden">
-            <div class="text-center space-y-2 relative z-10">
-                <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl shadow-lg">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <h2 class="tech-font text-2xl font-bold tracking-widest text-slate-100">
-                    CYBER <span class="text-emerald-400">TEAM</span> HELP
-                </h2>
-                <p class="text-xs text-slate-500 uppercase tracking-wider">Secure Access Authentication Portal</p>
-            </div>
-
-            <div id="login-error" class="hidden bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center text-xs text-red-400">
-                <i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid credentials. Verification failed.
-            </div>
-
-            <div class="space-y-4 relative z-10">
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">System Username</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-4 top-3.5 text-slate-600 text-sm"></i>
-                        <input type="text" id="username" placeholder="Enter administrative user" class="w-full bg-slate-950 border border-slate-800/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 transition-colors">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2">Access Password</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-3.5 text-slate-600 text-sm"></i>
-                        <input type="password" id="password" placeholder="Enter secure key" class="w-full bg-slate-950 border border-slate-800/80 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500/40 transition-colors">
-                    </div>
-                </div>
-                <button onclick="validateLogin()" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20">
-                    <i class="fa-solid fa-key text-xs"></i> Verify Identity & Log In
-                </button>
-            </div>
-            <div class="text-[10px] font-mono text-center text-slate-600 relative z-10 pt-2 border-t border-slate-800/60">
-                Authorized Node Access Only
-            </div>
-        </div>
+    <div class="nav-bar">
+        <button class="nav-btn active-btn" id="btnVpn" onclick="switchView('vpnView')">USA IP VPN PRO</button>
+        <button class="nav-btn" id="btnDash" onclick="switchView('dashView')">Control Dashboard</button>
     </div>
 
-    <div id="main-dashboard" class="hidden">
-        <header class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse glow-effect"></div>
-                    <h1 class="tech-font text-xl font-bold tracking-wider text-emerald-400 glow-text">DEVICE STREAM ACTIVE</h1>
+    <div id="vpnView" class="app-window active-view">
+        <div class="header">
+            <h1>USA IP VPN PRO</h1>
+            <p>Enterprise Network Protection</p>
+        </div>
+
+        <div id="vpnLoginSection">
+            <div class="login-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" placeholder="Enter Username">
                 </div>
-                <div class="flex items-center gap-6 text-sm text-slate-400 bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800">
-                    <div><span class="text-slate-600">ADMINISTRATOR:</span> <span class="text-slate-300 font-semibold uppercase">Cyber Team Help</span></div>
-                    <div><span class="text-slate-600">STATUS:</span> <span class="text-emerald-400 font-semibold animate-pulse">MONITOR ACTIVE</span></div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Enter Password">
                 </div>
+                <button class="primary-btn" onclick="handleLogin()">Connect App</button>
             </div>
-        </header>
+        </div>
 
-        <main class="max-w-4xl mx-auto p-4 md:p-6 space-y-6 relative z-10">
-
-            <div class="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 bg-slate-900/40 rounded-r-xl p-4 flex gap-3 items-start">
-                <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1 animate-bounce"></i>
-                <p class="text-xs text-amber-400/90 leading-relaxed">
-                    <span class="font-bold">ATTENTION REQUIRED:</span> To maintain non-stop data synchronization, ensure credentials remain verified. Log in and scan to monitor, otherwise the secure stream may pause automatically to protect bandwidth.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-blue-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">Facebook Profile</h3>
-                                <p class="text-xs text-slate-500">ID: <span class="text-blue-400 font-mono">Pk Perbez</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
-                    </div>
-                    <button onclick="openActionModal('Facebook Data Synchronizer', '3000')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open Facebook Console
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-pink-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-600 to-cyan-500 flex items-center justify-center text-white text-xl">
-                                <i class="fa-brands fa-tiktok"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">TikTok Feed</h3>
-                                <p class="text-xs text-slate-500">User: <span class="text-pink-400 font-mono">@bfc_pk_perbez_07</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-pink-500/10 border border-pink-500/20 text-pink-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
-                    </div>
-                    <button onclick="openActionModal('TikTok Stream Mirror', '3000')" class="w-full bg-gradient-to-r from-pink-600 to-cyan-600 hover:from-pink-500 hover:to-cyan-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open TikTok Console
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-emerald-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">WhatsApp Messages</h3>
-                                <p class="text-xs text-slate-500">Number: <span class="text-emerald-400 font-mono">+880 1758-497849</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
-                    </div>
-                    <button onclick="openActionModal('WhatsApp Live Messenger', '3000')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open WhatsApp Console
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">GPS Live Location</h3>
-                                <p class="text-xs text-slate-500">Tracking: <span class="text-amber-400 font-mono">Real-time Map</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
-                    </div>
-                    <button onclick="openActionModal('Live Location Map GPS', '3000')" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-map-location-dot text-[10px]"></i> Track Live Location
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-purple-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-solid fa-images"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">Camera & Gallery</h3>
-                                <p class="text-xs text-slate-500">Storage: <span class="text-purple-400 font-mono">Media Albums</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
-                    </div>
-                    <button onclick="openActionModal('Camera Gallery Fetcher', '3000')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-image text-[10px]"></i> Fetch Gallery Images
-                    </button>
-                </div>
-
-                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-cyan-500/40 transition-all duration-300">
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-cyan-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-solid fa-folder-open"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-sm text-slate-200">File Manager Explorer</h3>
-                                <p class="text-xs text-slate-500">Access: <span class="text-cyan-400 font-mono">Internal Root</span></p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
-                    </div>
-                    <button onclick="openActionModal('File Explorer System', '3000')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-file-lines text-[10px]"></i> Access System Files
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="bg-gradient-to-b from-slate-900/20 to-transparent border border-slate-800/40 rounded-xl p-3 text-center">
-                <span class="text-[9px] uppercase tracking-widest text-slate-600 font-mono">Cyber Team Help Control Infrastructure v5.5</span>
+        <div id="vpnControlSection" style="display: none;">
+            <div class="vpn-status-text">
+                Connection Status: <span id="ipStatusText" style="color: #ef4444; font-weight: bold;">Disconnected</span>
             </div>
             
-        </main>
-    </div>
-
-    <div id="action-modal" class="hidden fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 relative shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-
-            <div class="space-y-2 text-center">
-                <div class="w-12 h-12 bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mx-auto text-blue-400 text-xl">
-                    <i class="fa-solid fa-circle-info"></i>
-                </div>
-                <h3 id="modal-title" class="tech-font text-lg font-bold tracking-wide text-slate-100">Tool Activation</h3>
-                <p class="text-xs text-slate-400">Secure Network Requirements</p>
+            <div class="toggle-container">
+                <span>Enable Secure USA Proxy</span>
+                <label class="switch">
+                    <input type="checkbox" id="ipToggle">
+                    <span class="slider"></span>
+                </label>
             </div>
 
-            <div class="bg-slate-950 border border-slate-800/60 rounded-xl p-4 space-y-3 font-sans text-sm text-slate-300">
-                <div class="flex items-center gap-2 text-emerald-400 font-medium">
-                    <i class="fa-solid fa-globe text-xs"></i> Connect US IP to your Phone
-                </div>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                    সিস্টেমের নিরাপত্তা ও হাই-স্পিড ডেটা সিঙ্ক সেশন বজায় রাখার জন্য আপনার ডিভাইসে একটি ইউএস (US) আইপি সেটআপ করা আবশ্যক।
-                </p>
-                <div class="pt-2 border-t border-slate-800/80 flex justify-between items-center">
-                    <span class="text-xs text-slate-500 uppercase tracking-wider">Required Activation Fee:</span>
-                    <span id="modal-price" class="text-amber-400 font-bold tech-font text-base">3000TK</span>
-                </div>
-                <p class="text-[11px] text-red-400/80 italic text-center">
-                    * পেইড বিফোর ইউজ সার্ভিস। অ্যাক্টিভেশন সম্পন্ন করতে নিচে মেইল করুন।
-                </p>
-            </div>
-
-            <a id="email-link" href="#" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-600/10">
-                <i class="fa-solid fa-envelope text-base"></i> Confirm Payment via Email
-            </a>
+            <button class="primary-btn" style="width: 100%;" onclick="connectServer()">Connect Server</button>
         </div>
     </div>
 
-    <script>
-        function validateLogin() {
-            const userInp = document.getElementById('username').value.trim();
-            const passInp = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('login-error');
-            const loginScreen = document.getElementById('login-screen');
-            const mainDashboard = document.getElementById('main-dashboard');
 
-            // Updated credentials
-            if (userInp === "Akbor12" && passInp === "17@ali") {
-                errorDiv.classList.add('hidden');
-                loginScreen.classList.add('hidden');
-                mainDashboard.classList.remove('hidden');
+    <div id="dashView" class="app-window">
+        <div class="header">
+            <h1>Cyber Team Help</h1>
+            <p>Device Control & Overview Panel</p>
+        </div>
+
+        <div class="section-title">
+            <i class="fa-solid fa-layer-group"></i> Connected Accounts
+        </div>
+        
+        <div class="social-grid">
+            <div class="social-item facebook" onclick="checkAccess('Facebook Control Action')">
+                <i class="fa-brands fa-facebook"></i>
+                <span class="app-name">Facebook</span>
+                <span class="user-detail">Pk Perbez</span>
+            </div>
+            <div class="social-item whatsapp" onclick="checkAccess('WhatsApp Control Action')">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span class="app-name">WhatsApp</span>
+                <span class="user-detail">+880 1758-497849</span>
+            </div>
+            <div class="social-item tiktok" onclick="checkAccess('TikTok Control Action')">
+                <i class="fa-brands fa-tiktok"></i>
+                <span class="app-name">TikTok</span>
+                <span class="user-detail">@bfc_pk_perbez_07</span>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <i class="fa-solid fa-desktop"></i> Device Monitor Live
+        </div>
+        <div class="live-monitor-box" id="liveMonitorScreen" onclick="checkAccess('Device Screen Stream')">
+            <div class="spinner-loader" id="monitorLoader"></div>
+            <span class="stream-text" id="monitorText" style="color:#94a3b8;">USA IP Required for Live Stream<br><small style="color:#64748b; font-weight:normal;">Waiting for Proxy...</small></span>
+        </div>
+
+        <div class="section-title">
+            <i class="fa-solid fa-sliders"></i> Phone Access & Status
+        </div>
+        
+        <div class="status-list">
+            <div class="status-card" onclick="checkAccess('File Storage System')">
+                <div class="status-info">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <div class="status-text">
+                        <h4>File Access</h4>
+                        <p>Internal & SD Card Storage</p>
+                    </div>
+                </div>
+                <span class="status-badge">Allowed</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Gallery Mirror Panel')">
+                <div class="status-info">
+                    <i class="fa-solid fa-images"></i>
+                    <div class="status-text">
+                        <h4>Gallery & Media</h4>
+                        <p>Photos, Videos & DCIM</p>
+                    </div>
+                </div>
+                <span class="status-badge">Allowed</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Network Live Stream')">
+                <div class="status-info">
+                    <i class="fa-solid fa-camera"></i>
+                    <div class="status-text">
+                        <h4>Camera Access</h4>
+                        <p>Front & Back Live Capture</p>
+                    </div>
+                </div>
+                <span class="status-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:rgba(56,189,248,0.2);">Standby</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Microphone Intercept')">
+                <div class="status-info">
+                    <i class="fa-solid fa-microphone"></i>
+                    <div class="status-text">
+                        <h4>Microphone Access</h4>
+                        <p>Real-time Audio Listening</p>
+                    </div>
+                </div>
+                <span class="status-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:rgba(56,189,248,0.2);">Standby</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Call Logs System')">
+                <div class="status-info">
+                    <i class="fa-solid fa-phone-volume"></i>
+                    <div class="status-text">
+                        <h4>Call Logs & SMS</h4>
+                        <p>Incoming & Outgoing Access</p>
+                    </div>
+                </div>
+                <span class="status-badge">Allowed</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Phonebook Database')">
+                <div class="status-info">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="status-text">
+                        <h4>Contact List</h4>
+                        <p>Full Phonebook & Contacts Backup</p>
+                    </div>
+                </div>
+                <span class="status-badge">Allowed</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('Notification Listener')">
+                <div class="status-info">
+                    <i class="fa-solid fa-bell"></i>
+                    <div class="status-text">
+                        <h4>App Notifications</h4>
+                        <p>Intercept Real-time Push Alerts</p>
+                    </div>
+                </div>
+                <span class="status-badge">Active</span>
+            </div>
+
+            <div class="status-card" onclick="checkAccess('GPS Tracker Core')">
+                <div class="status-info">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <div class="status-text">
+                        <h4>GPS Location</h4>
+                        <p>Real-time Target Tracking</p>
+                    </div>
+                </div>
+                <span class="status-badge" style="background:rgba(234,179,8,0.15); color:#facc15; border-color:rgba(234,179,8,0.2);">Live</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-box">
+            <i id="modalIcon" class="fa-solid fa-triangle-exclamation"></i>
+            <h3 id="modalTitle">Access Restricted</h3>
+            <p id="modalMessage">ইউএস এর আইপি অ্যাড্রেস কানেক্ট করুন।</p>
+            <button class="primary-btn" style="padding: 10px 30px; margin-top: 5px;" onclick="closeModal()">ঠিক আছে</button>
+        </div>
+    </div>
+
+
+    <script>
+        let isIpConnected = false;
+
+        function switchView(viewId) {
+            document.getElementById('vpnView').classList.remove('active-view');
+            document.getElementById('dashView').classList.remove('active-view');
+            document.getElementById('btnVpn').classList.remove('active-btn');
+            document.getElementById('btnDash').classList.remove('active-btn');
+
+            document.getElementById(viewId).classList.add('active-view');
+            if(viewId === 'vpnView') document.getElementById('btnVpn').classList.add('active-btn');
+            if(viewId === 'dashView') document.getElementById('btnDash').classList.add('active-btn');
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            if(user === "Akbor12" && pass === "17@ali") {
+                document.getElementById('vpnLoginSection').style.display = 'none';
+                document.getElementById('vpnControlSection').style.display = 'block';
             } else {
-                errorDiv.classList.remove('hidden');
+                alert("ভুল ইউজারনেম অথবা পাসওয়ার্ড!");
             }
         }
 
-        function openActionModal(toolName, price) {
-            const modal = document.getElementById('action-modal');
-            const title = document.getElementById('modal-title');
-            const priceTag = document.getElementById('modal-price');
-            const emailLink = document.getElementById('email-link');
+        function connectServer() {
+            const toggle = document.getElementById('ipToggle');
+            const statusText = document.getElementById('ipStatusText');
             
-            const emailTarget = "usaphonecontrol66@haren.uk";
-            const subject = encodeURIComponent(`Activation Request for ${toolName}`);
-            const body = encodeURIComponent(`Hello Cyber Team Help,\n\nI want to activate the "${toolName}" tool on my device.\n\nRequired Fee: ${price}TK.\nPlease send me the secure payment instructions.`);
-            
-            title.innerHTML = `${toolName} Activation`;
-            priceTag.innerHTML = `${price}TK`;
-            
-            emailLink.href = `mailto:${emailTarget}?subject=${subject}&body=${body}`;
-            
-            modal.classList.remove('hidden');
+            const monitorBox = document.getElementById('liveMonitorScreen');
+            const monitorLoader = document.getElementById('monitorLoader');
+            const monitorText = document.getElementById('monitorText');
+
+            if(toggle.checked) {
+                isIpConnected = true;
+                statusText.innerText = "Connected";
+                statusText.style.color = "#22c55e";
+                
+                monitorBox.classList.add('stream-active');
+                monitorLoader.style.display = 'none';
+                monitorText.innerHTML = "<i class='fa-solid fa-circle-dot' style='color:#ef4444; font-size:14px; animation: blink 1s infinite; margin-right:5px;'></i> <span style='color:#22c55e; font-weight:bold;'>LIVE STREAM ACTIVE</span><br><small style='color:#a7f3d0;'>USA SECURE PROXY NODE #04</small>";
+                
+                alert("USA IP VPN PRO সার্ভার সফলভাবে সংযুক্ত হয়েছে!");
+            } else {
+                alert("দয়া করে আগে 'Enable Secure USA Proxy' অন করুন।");
+            }
+        }
+
+        function checkAccess(titleName) {
+            const modal = document.getElementById('customModal');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+
+            modal.classList.add('active');
+
+            if(isIpConnected) {
+                modalIcon.className = "fa-solid fa-circle-check success-icon";
+                modalTitle.innerText = titleName;
+                modalMessage.innerHTML = "<span style='color:#22c55e; font-weight:bold; font-size:16px;'>IP Connected Successful</span><br><br><span style='color:#ef4444; font-weight:bold; font-size:15px; letter-spacing:0.5px;'>Bangladesh Server Blocked</span>";
+            } else {
+                modalIcon.className = "fa-solid fa-triangle-exclamation error-icon";
+                modalTitle.innerText = "Access Restricted";
+                modalMessage.innerText = "ইউএস এর আইপি অ্যাড্রেস কানেক্ট করুন।";
+            }
         }
 
         function closeModal() {
-            document.getElementById('action-modal').classList.add('hidden');
+            document.getElementById('customModal').classList.remove('active');
         }
     </script>
 
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+    </style>
 </body>
 </html>
