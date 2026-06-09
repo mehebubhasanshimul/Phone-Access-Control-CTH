@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Team Help Phone Access</title>
+    <title>Cyber Team Help Control Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,7 +19,6 @@
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none"></div>
     <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none"></div>
 
-    <!-- LOGIN SCREEN -->
     <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-950 flex flex-col items-center justify-center p-4">
         <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6 relative overflow-hidden">
             <div class="text-center space-y-2 relative z-10">
@@ -61,13 +60,12 @@
         </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
     <div id="main-dashboard" class="hidden">
         <header class="border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
             <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3">
                     <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse glow-effect"></div>
-                    <h1 class="tech-font text-xl font-bold tracking-wider text-emerald-400 glow-text">YOUR DEVICE ACCESS COMPLETE</h1>
+                    <h1 class="tech-font text-xl font-bold tracking-wider text-emerald-400 glow-text">DEVICE STREAM ACTIVE</h1>
                 </div>
                 <div class="flex items-center gap-6 text-sm text-slate-400 bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800">
                     <div><span class="text-slate-600">ADMINISTRATOR:</span> <span class="text-slate-300 font-semibold uppercase">Cyber Team Help</span></div>
@@ -76,7 +74,7 @@
             </div>
         </header>
 
-        <main class="max-w-3xl mx-auto p-4 md:p-6 space-y-6 relative z-10">
+        <main class="max-w-4xl mx-auto p-4 md:p-6 space-y-6 relative z-10">
 
             <div class="bg-gradient-to-r from-amber-500/10 to-transparent border-l-4 border-amber-500 bg-slate-900/40 rounded-r-xl p-4 flex gap-3 items-start">
                 <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1 animate-bounce"></i>
@@ -85,36 +83,127 @@
                 </p>
             </div>
 
-            <!-- WhatsApp Section Only -->
-            <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-500">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-emerald-500/20">
-                            <i class="fa-brands fa-whatsapp"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-blue-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white text-xl">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">Facebook Profile</h3>
+                                <p class="text-xs text-slate-500">ID: <span class="text-blue-400 font-mono">Pk Perbez</span></p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="font-semibold text-lg text-slate-200 tracking-wide">WhatsApp</h3>
-                            <p class="text-xs text-slate-500">Connected Number: <span class="text-emerald-400 font-mono font-bold">+393391158022</span></p>
-                        </div>
+                        <span class="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
                     </div>
-                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-lg uppercase tracking-wider tech-font">Linked</span>
+                    <button onclick="openActionModal('Facebook Data Synchronizer', '3000')" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open Facebook Console
+                    </button>
                 </div>
-                <button onclick="openActionModal('WhatsApp', '3000')" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 text-white font-medium text-sm py-2.5 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/10 hover:shadow-emerald-600/20">
-                    <i class="fa-solid fa-circle-notch text-xs"></i> Open Live Monitor Console
-                </button>
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-pink-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-600 to-cyan-500 flex items-center justify-center text-white text-xl">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">TikTok Feed</h3>
+                                <p class="text-xs text-slate-500">User: <span class="text-pink-400 font-mono">@bfc_pk_perbez_07</span></p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-pink-500/10 border border-pink-500/20 text-pink-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
+                    </div>
+                    <button onclick="openActionModal('TikTok Stream Mirror', '3000')" class="w-full bg-gradient-to-r from-pink-600 to-cyan-600 hover:from-pink-500 hover:to-cyan-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open TikTok Console
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-emerald-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-xl">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">WhatsApp Messages</h3>
+                                <p class="text-xs text-slate-500">Number: <span class="text-emerald-400 font-mono">+880 1758-497849</span></p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Linked</span>
+                    </div>
+                    <button onclick="openActionModal('WhatsApp Live Messenger', '3000')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-notch text-[10px]"></i> Open WhatsApp Console
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-amber-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-600 flex items-center justify-center text-white text-xl">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">GPS Live Location</h3>
+                                <p class="text-xs text-slate-500">Tracking: <span class="text-amber-400 font-mono">Real-time Map</span></p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
+                    </div>
+                    <button onclick="openActionModal('Live Location Map GPS', '3000')" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-[10px]"></i> Track Live Location
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-purple-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white text-xl">
+                                <i class="fa-solid fa-images"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">Camera & Gallery</h3>
+                                <p class="text-xs text-slate-500">Storage: <span class="text-purple-400 font-mono">Media Albums</span></p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
+                    </div>
+                    <button onclick="openActionModal('Camera Gallery Fetcher', '3000')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-image text-[10px]"></i> Fetch Gallery Images
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-5 hover:border-cyan-500/40 transition-all duration-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-600 flex items-center justify-center text-white text-xl">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-sm text-slate-200">File Manager Explorer</h3>
+                                <p class="text-xs text-slate-500">Access: <span class="text-cyan-400 font-mono">Internal Root</span></p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-semibold rounded uppercase tracking-wider tech-font">Ready</span>
+                    </div>
+                    <button onclick="openActionModal('File Explorer System', '3000')" class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-medium text-xs py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-file-lines text-[10px]"></i> Access System Files
+                    </button>
+                </div>
+
             </div>
 
             <div class="bg-gradient-to-b from-slate-900/20 to-transparent border border-slate-800/40 rounded-xl p-3 text-center">
-                <span class="text-[9px] uppercase tracking-widest text-slate-600 font-mono">Cyber Team Help Control Infrastructure v5.0</span>
+                <span class="text-[9px] uppercase tracking-widest text-slate-600 font-mono">Cyber Team Help Control Infrastructure v5.5</span>
             </div>
             
         </main>
     </div>
 
-    <!-- DYNAMIC POP-UP MODAL (GMAIL INTEGRATED) -->
     <div id="action-modal" class="hidden fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-6 relative shadow-2xl">
-            <!-- Close Button -->
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-500 hover:text-slate-300 transition-colors">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
@@ -143,14 +232,12 @@
                 </p>
             </div>
 
-            <!-- Gmail Confirmation Button -->
             <a id="email-link" href="#" class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-medium text-sm py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-600/10">
                 <i class="fa-solid fa-envelope text-base"></i> Confirm Payment via Email
             </a>
         </div>
     </div>
 
-    <!-- JS SCRIPT -->
     <script>
         function validateLogin() {
             const userInp = document.getElementById('username').value.trim();
@@ -159,8 +246,8 @@
             const loginScreen = document.getElementById('login-screen');
             const mainDashboard = document.getElementById('main-dashboard');
 
-            // Updated credentials as requested
-            if (userInp === "Popy" && passInp === "098@+%&*") {
+            // Updated credentials
+            if (userInp === "Akbor12" && passInp === "17@ali") {
                 errorDiv.classList.add('hidden');
                 loginScreen.classList.add('hidden');
                 mainDashboard.classList.remove('hidden');
